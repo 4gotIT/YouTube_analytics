@@ -69,4 +69,61 @@ class Channel:
         """Выводит в консоль информацию о канале."""
         print(json.dumps(self.channel, indent=2, ensure_ascii=False))
 
+    def __str__(self):
+        return f'{self.__title} ({self.__url})'
 
+    def __add__(self, other):
+        if isinstance(other, Channel):
+            return self.__subscriber_count + other.__subscriber_count
+        else:
+            raise f'{other} не является экземпляром класса Channel'
+
+    def __sub__(self, other):
+        if isinstance(other, Channel):
+            return int(self.__subscriber_count) - int(other.__subscriber_count)
+        else:
+            raise f'{other} не является экземпляром класса Channel'
+
+    def __gt__(self, other):
+        if not isinstance(other, Channel):
+            raise TypeError('f{other} не является экземпляром класса Channel')
+        if self.__subscriber_count > other.__subscriber_count:
+            return True
+        return False
+
+    def __lt__(self, other):
+        if not isinstance(other, Channel):
+            raise TypeError('f{other} не является экземпляром класса Channel')
+        if self.__subscriber_count < other.__subscriber_count:
+            return True
+        return False
+
+    def __ge__(self, other):
+        if not isinstance(other, Channel):
+            raise TypeError('f{other} не является экземпляром класса Channel')
+        if self.__subscriber_count >= other.__subscriber_count:
+            return True
+        return False
+
+    def __le__(self, other):
+        if not isinstance(other, Channel):
+            raise TypeError('f{other} не является экземпляром класса Channel')
+        if self.__subscriber_count <= other.__subscriber_count:
+            return True
+        return False
+
+
+if __name__ == '__main__':
+    # Создаем два экземпляра класса
+    moscowpython = Channel('UC-OVMPlMA3-YCIeg4z5z23A')
+    highload = Channel('UCwHL6WHUarjGfUM_586me8w')
+    # Используем различные магические методы
+    print(moscowpython)  # 'MoscowPython (https://www.youtube.com/channel/UC-OVMPlMA3-YCIeg4z5z23A)'
+    print(moscowpython + highload)  # 100100
+    print(moscowpython - highload)  # -48300
+    print(highload - moscowpython)  # 48300
+    print(moscowpython > highload)  # False
+    print(moscowpython >= highload)  # False
+    print(moscowpython < highload)  # True
+    print(moscowpython <= highload)  # True
+    print(moscowpython == highload)  # False

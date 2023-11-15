@@ -63,3 +63,18 @@ def test_get_attr():
     assert moscowpython.url == 'https://www.youtube.com/channel/UC-OVMPlMA3-YCIeg4z5z23A'
     assert type(Channel.get_service()) == object
 
+def print_channel():
+    moscowpython = Channel('UC-OVMPlMA3-YCIeg4z5z23A')
+    assert moscowpython.__str__() == 'MoscowPython (https://www.youtube.com/channel/UC-OVMPlMA3-YCIeg4z5z23A)'
+
+def test_operations():
+    moscowpython = Channel('UC-OVMPlMA3-YCIeg4z5z23A')
+    highload = Channel('UCwHL6WHUarjGfUM_586me8w')
+    assert moscowpython + highload == 2670078300
+    assert moscowpython - highload == -51600
+    assert highload - moscowpython == 51600
+    assert moscowpython > highload is False
+    assert moscowpython >= highload is False
+    assert moscowpython < highload is True
+    assert moscowpython <= highload is True
+    assert moscowpython == highload is False
