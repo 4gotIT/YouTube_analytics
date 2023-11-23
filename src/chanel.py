@@ -3,7 +3,16 @@ from dotenv import get_key
 from googleapiclient.discovery import build
 
 
-class Channel:
+class APIMixin:
+    __api_key: str = get_key(".env", 'API_KEY')
+
+    @classmethod
+    def get_service(cls):
+        """Класс-метод, возвращающий объект для работы с YouTube API"""
+        youtube = build('youtube', 'v3', developerKey=cls.__api_key)
+        return youtube
+
+class Channel(APIMixin):
     """Класс аналитика для ютуб-канала"""
 
     def __init__(self, channel_id: str) -> None:
@@ -16,13 +25,6 @@ class Channel:
         self.__subscriber_count = self.channel['items'][0]['statistics']['subscriberCount']  # количество подписчиков
         self.__video_count = self.channel['items'][0]['statistics']['videoCount']  # количество видео
         self.__view_count = self.channel['items'][0]['statistics']['viewCount']  # количество видео
-
-    @classmethod
-    def get_service(cls):
-        """Класс-метод, возвращающий объект для работы с YouTube API"""
-        api_key: str = get_key(".env", 'API_KEY')
-        youtube = build('youtube', 'v3', developerKey=api_key)
-        return youtube
 
     @property
     def id(self):

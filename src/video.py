@@ -1,10 +1,10 @@
 import json
-
+from src.chanel import APIMixin
 from dotenv import get_key
 from googleapiclient.discovery import build
 
 
-class Video:
+class Video(APIMixin):
     """
     Класс видео
     :param
@@ -12,7 +12,7 @@ class Video:
     """
     def __init__(self, id_video: str):
         self.__id = id_video # id видео
-        self.__video = self.get_video_info().videos().list(id=id_video, part='snippet,statistics').execute()
+        self.__video = self.get_service().videos().list(id=id_video, part='snippet,statistics').execute()
         self.__url = f'https://www.youtube.com/watch?v={self.id}' # ссылка на видео
         self.__title = self.__video["items"][0]["snippet"]["title"] # название видео
         self.__view_count = self.__video["items"][0]["statistics"]["viewCount"] # количество просмотров
@@ -36,14 +36,6 @@ class Video:
             'likeCount': self.__likes
         }
         return data
-
-    @classmethod
-    def get_video_info(cls) -> object:
-        """Класс-метод, возвращающий объект для работы с YouTube API"""
-        api_key: str = get_key(".env", 'API_KEY')
-        youtube: object = build('youtube', 'v3', developerKey=api_key)
-
-        return youtube
 
     @staticmethod
     def to_json_file(data: dict) -> None:
