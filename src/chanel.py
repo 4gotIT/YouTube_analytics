@@ -30,27 +30,27 @@ class Channel:
 
     @property
     def title(self):
-        return self.title
+        return self.__title
 
     @property
     def description(self):
-        return self.description
+        return self.__description
 
     @property
     def url(self):
-        return self.url
+        return self.__url
 
     @property
     def subscriber_count(self):
-        return self.subscriber_count
+        return self.__subscriber_count
 
     @property
     def video_count(self):
-        return self.video_count
+        return self.__video_count
 
     @property
     def view_count(self):
-        return self.view_count
+        return self.__view_count
 
     def to_json(self) -> None:
         attr = {
